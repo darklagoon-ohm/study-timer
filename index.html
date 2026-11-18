@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>STUDY TIMER</title>
+<meta name="description" content="Cronômetro de questões de estudo. Dados salvos no próprio navegador.">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'><rect width='8' height='8' fill='%23000'/><rect x='1' y='1' width='6' height='6' fill='none' stroke='%23fff' stroke-width='1'/><rect x='3' y='2' width='1' height='2' fill='%23fff'/><rect x='4' y='4' width='2' height='1' fill='%23fff'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#000000">
+<link rel="apple-touch-icon" href="icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Study Timer">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<!-- Aplica o tema salvo antes da primeira pintura, para não piscar o tema padrão. -->
+<script>
+  try {
+    var saved = JSON.parse(localStorage.getItem('study-timer.v1') || '{}');
+    if (saved && saved.theme) document.documentElement.setAttribute('data-theme', saved.theme);
+  } catch (e) { /* sem tema salvo: usa o padrão */ }
+</script>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => navigator.serviceWorker.register('sw.js'));
+  }
+</script>
+</head>
+<body>
+  <!-- Efeito de scanlines do monitor CRT (puramente decorativo) -->
+  <div class="crt" aria-hidden="true"></div>
+
+  <div class="screen">
+    <header class="topbar">
+      <h1 class="logo">STUDY TIMER<span class="caret" aria-hidden="true">_</span></h1>
+      <nav class="topbar-tools">
+	  <button class="btn btn-sm" data-act="open-themes" type="button">TEMAS</button>
+        <button class="btn btn-sm" data-act="toggle-sound" id="soundBtn" type="button">SOM: ON</button>
+        <button class="btn btn-sm" data-act="export" type="button">EXPORTAR</button>
+		<button class="btn btn-sm" data-act="share-backup" type="button">COMPARTILHAR</button>
+		<button class="btn btn-sm" data-act="open-reminders" type="button">LEMBRETES</button>
+        <button class="btn btn-sm" data-act="import" type="button">IMPORTAR</button>
+      </nav>
+    </header>
+
+    <!-- Trilha de navegação: DASHBOARD / ESTUDO / ATIVIDADE -->
+    <div class="breadcrumb" id="breadcrumb"></div>
+
+	<div class="backup-banner" id="backupBanner" hidden></div>
+
+    <main id="app" class="app"></main>
+
+    <footer class="statusbar" id="statusbar"></footer>
+  </div>
+
+  <!-- Camada de diálogos (renderizada via JS) -->
+  <div class="modal-layer" id="modalLayer" hidden></div>
+  <div class="toast" id="toast" hidden></div>
+  <input type="file" id="fileInput" accept="application/json,.json" hidden>
+
+  <script src="script.js"></script>
+</body>
+</html>
