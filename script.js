@@ -384,7 +384,7 @@ function viewHome() {
     ${db.studies.length
       ? `<ul class="list">${rows}</ul>`
       : `<div class="empty"><strong>NENHUM ESTUDO AINDA</strong>
-           Crie um estudo (Cálculo II, Circuitos, Alemão...) para começar a cronometrar.</div>`}
+           Crie um estudo (Física, matemática...) para começar a cronometrar.</div>`}
   </section>`;
 }
 
